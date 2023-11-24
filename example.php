@@ -49,10 +49,56 @@ echo "\n";
 print_r($keyFile);
 echo "\n";
 
-print_r($ssl);
+var_dump($ssl);
 echo "\n";
 echo "\n";
 
 // Now you can continue with your SSL/TLS operations using $ssl
 
-?>
+// Generate Thumbprint
+$thumbprint = generateThumbprint($certFile);
+
+
+// Dummy example for JWT payload
+$jwtPayload = [
+    "iss" => "your_issuer",
+    "sub" => "user123",
+    "iat" => time(),
+    "exp" => time() + 3600, // Example: Expires in 1 hour
+    "aud" => "your_audience",
+    "custom_claim" => "custom_value"
+];
+
+// Generate JWT Signature
+$jwtSignature = generateJwtSignature($ssl, $jwtPayload);
+
+print_r($jwtSignature);
+echo "\n";
+echo "\n";
+function generateThumbprint($certFile): string
+{
+    $certData = file_get_contents($certFile);
+    $hash = hash('sha256', $certData, true);
+    return bin2hex($hash);
+}
+
+function generateJwtSignature($ssl, $payload) {
+    // Convert payload to JSON string
+    $payloadJson = json_encode($payload);
+
+    // Allocate space for the signature
+    $signature = str_repeat("\0", 256);
+
+    var_dump($payloadJson);
+    // Sign the payload using the private key associated with the certificate
+    $result = wolfssl::wc_RsaSSL_Sign($payloadJson, strlen($payloadJson), $signature, 256, $ssl, null);
+
+    if ($result !== 0) {
+        // Error handling for signature generation failure
+        echo "Failed to generate JWT signature.\n";
+        exit;
+    }
+
+    // Encode the signature as base64
+    return base64_encode($signature);
+}

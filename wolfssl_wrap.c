@@ -1140,8 +1140,8 @@ static swig_cast_info *swig_cast_initial[] = {
 /* end header section */
 /* vdecl subsection */
 static int le_swig__p_unsigned_char=0; /* handle for _p_unsigned_char */
-static int le_swig__p_byte=0; /* handle for _p_byte */
 static int le_swig__p_word32=0; /* handle for _p_word32 */
+static int le_swig__p_byte=0; /* handle for _p_byte */
 static int le_swig__p_WOLFSSL_CTX=0; /* handle for _p_WOLFSSL_CTX */
 static int le_swig__p_RsaKey=0; /* handle for _p_RsaKey */
 static int le_swig__p_long=0; /* handle for _p_long */
@@ -1604,11 +1604,17 @@ ZEND_NAMED_FUNCTION(_wrap_wc_SignatureGenerate) {
   arg2 = (enum wc_SignatureType) zval_get_long(&args[1]);
   /*@SWIG@*/;
   
-  
-  if (SWIG_ConvertPtr(&args[2], (void **) &arg3, SWIGTYPE_p_byte, 0) < 0) {
-    SWIG_PHP_Error(E_ERROR, "Type error in argument 3 of wc_SignatureGenerate. Expected SWIGTYPE_p_byte");
+  {
+    if (Z_TYPE_P(args[2]) == IS_STRING) {
+      char *str = Z_STRVAL_P(args[2]);
+      size_t len = Z_STRLEN_P(args[2]);
+      arg3 = (const byte*) str;
+      arg3_len = (word32) len;
+    } else {
+      SWIG_PHP_Error(E_ERROR, "Expected a string");
+      return;
+    }
   }
-  
   
   if (SWIG_ConvertPtr(&args[3], (void **) &tmp4, SWIGTYPE_p_word32, 0) < 0 || tmp4 == NULL) {
     SWIG_PHP_Error(E_ERROR, "Type error in argument 4 of wc_SignatureGenerate. Expected SWIGTYPE_p_word32");
@@ -1730,12 +1736,14 @@ fail:
 
 
 ZEND_NAMED_FUNCTION(_wrap_wc_RsaSSL_Sign) {
-  unsigned char *arg1 = (unsigned char *) 0 ;
-  int arg2 ;
-  unsigned char *arg3 = (unsigned char *) 0 ;
-  int arg4 ;
+  byte *arg1 = (byte *) 0 ;
+  word32 arg2 ;
+  byte *arg3 = (byte *) 0 ;
+  word32 arg4 ;
   RsaKey *arg5 = (RsaKey *) 0 ;
   WC_RNG *arg6 = (WC_RNG *) 0 ;
+  word32 *tmp2 ;
+  word32 *tmp4 ;
   zval args[6];
   int result;
   
@@ -1744,25 +1752,33 @@ ZEND_NAMED_FUNCTION(_wrap_wc_RsaSSL_Sign) {
     WRONG_PARAM_COUNT;
   }
   
+  {
+    if (Z_TYPE_P(args[0]) == IS_STRING) {
+      char *str = Z_STRVAL_P(args[0]);
+      size_t len = Z_STRLEN_P(args[0]);
+      arg1 = (const byte*) str;
+      arg1_len = (word32) len;
+    } else {
+      SWIG_PHP_Error(E_ERROR, "Expected a string");
+      return;
+    }
+  }
   
-  if (SWIG_ConvertPtr(&args[0], (void **) &arg1, SWIGTYPE_p_unsigned_char, 0) < 0) {
-    SWIG_PHP_Error(E_ERROR, "Type error in argument 1 of wc_RsaSSL_Sign. Expected SWIGTYPE_p_unsigned_char");
+  if (SWIG_ConvertPtr(&args[1], (void **) &tmp2, SWIGTYPE_p_word32, 0) < 0 || tmp2 == NULL) {
+    SWIG_PHP_Error(E_ERROR, "Type error in argument 2 of wc_RsaSSL_Sign. Expected SWIGTYPE_p_word32");
+  }
+  arg2 = *tmp2;
+  
+  
+  if (SWIG_ConvertPtr(&args[2], (void **) &arg3, SWIGTYPE_p_byte, 0) < 0) {
+    SWIG_PHP_Error(E_ERROR, "Type error in argument 3 of wc_RsaSSL_Sign. Expected SWIGTYPE_p_byte");
   }
   
   
-  /*@SWIG:/usr/share/swig4.0/php/utils.i,6,CONVERT_INT_IN@*/
-  arg2 = (int) zval_get_long(&args[1]);
-  /*@SWIG@*/;
-  
-  
-  if (SWIG_ConvertPtr(&args[2], (void **) &arg3, SWIGTYPE_p_unsigned_char, 0) < 0) {
-    SWIG_PHP_Error(E_ERROR, "Type error in argument 3 of wc_RsaSSL_Sign. Expected SWIGTYPE_p_unsigned_char");
+  if (SWIG_ConvertPtr(&args[3], (void **) &tmp4, SWIGTYPE_p_word32, 0) < 0 || tmp4 == NULL) {
+    SWIG_PHP_Error(E_ERROR, "Type error in argument 4 of wc_RsaSSL_Sign. Expected SWIGTYPE_p_word32");
   }
-  
-  
-  /*@SWIG:/usr/share/swig4.0/php/utils.i,6,CONVERT_INT_IN@*/
-  arg4 = (int) zval_get_long(&args[3]);
-  /*@SWIG@*/;
+  arg4 = *tmp4;
   
   
   if (SWIG_ConvertPtr(&args[4], (void **) &arg5, SWIGTYPE_p_RsaKey, 0) < 0) {
@@ -1774,7 +1790,7 @@ ZEND_NAMED_FUNCTION(_wrap_wc_RsaSSL_Sign) {
     SWIG_PHP_Error(E_ERROR, "Type error in argument 6 of wc_RsaSSL_Sign. Expected SWIGTYPE_p_WC_RNG");
   }
   
-  result = (int)wc_RsaSSL_Sign((unsigned char const *)arg1,arg2,arg3,arg4,arg5,arg6);
+  result = (int)wc_RsaSSL_Sign((byte const *)arg1,arg2,arg3,arg4,arg5,arg6);
   
   RETVAL_LONG(result);
   
@@ -1786,7 +1802,7 @@ fail:
 
 
 ZEND_NAMED_FUNCTION(_wrap_wc_RsaSSL_Verify) {
-  unsigned char *arg1 = (unsigned char *) 0 ;
+  byte *arg1 = (byte *) 0 ;
   int arg2 ;
   unsigned char *arg3 = (unsigned char *) 0 ;
   int arg4 ;
@@ -1799,11 +1815,17 @@ ZEND_NAMED_FUNCTION(_wrap_wc_RsaSSL_Verify) {
     WRONG_PARAM_COUNT;
   }
   
-  
-  if (SWIG_ConvertPtr(&args[0], (void **) &arg1, SWIGTYPE_p_unsigned_char, 0) < 0) {
-    SWIG_PHP_Error(E_ERROR, "Type error in argument 1 of wc_RsaSSL_Verify. Expected SWIGTYPE_p_unsigned_char");
+  {
+    if (Z_TYPE_P(args[0]) == IS_STRING) {
+      char *str = Z_STRVAL_P(args[0]);
+      size_t len = Z_STRLEN_P(args[0]);
+      arg1 = (const byte*) str;
+      arg1_len = (word32) len;
+    } else {
+      SWIG_PHP_Error(E_ERROR, "Expected a string");
+      return;
+    }
   }
-  
   
   /*@SWIG:/usr/share/swig4.0/php/utils.i,6,CONVERT_INT_IN@*/
   arg2 = (int) zval_get_long(&args[1]);
@@ -1824,7 +1846,7 @@ ZEND_NAMED_FUNCTION(_wrap_wc_RsaSSL_Verify) {
     SWIG_PHP_Error(E_ERROR, "Type error in argument 5 of wc_RsaSSL_Verify. Expected SWIGTYPE_p_RsaKey");
   }
   
-  result = (int)wc_RsaSSL_Verify((unsigned char const *)arg1,arg2,arg3,arg4,arg5);
+  result = (int)wc_RsaSSL_Verify((byte const *)arg1,arg2,arg3,arg4,arg5);
   
   RETVAL_LONG(result);
   
@@ -2181,10 +2203,10 @@ SWIG_php_minit {
   /* Register resource destructors for pointer types */
   le_swig__p_unsigned_char=zend_register_list_destructors_ex(_swig_default_rsrc_destroy, NULL, SWIGTYPE_p_unsigned_char->name, module_number);
   SWIG_TypeClientData(SWIGTYPE_p_unsigned_char,&le_swig__p_unsigned_char);
-  le_swig__p_byte=zend_register_list_destructors_ex(_swig_default_rsrc_destroy, NULL, SWIGTYPE_p_byte->name, module_number);
-  SWIG_TypeClientData(SWIGTYPE_p_byte,&le_swig__p_byte);
   le_swig__p_word32=zend_register_list_destructors_ex(_swig_default_rsrc_destroy, NULL, SWIGTYPE_p_word32->name, module_number);
   SWIG_TypeClientData(SWIGTYPE_p_word32,&le_swig__p_word32);
+  le_swig__p_byte=zend_register_list_destructors_ex(_swig_default_rsrc_destroy, NULL, SWIGTYPE_p_byte->name, module_number);
+  SWIG_TypeClientData(SWIGTYPE_p_byte,&le_swig__p_byte);
   le_swig__p_WOLFSSL_CTX=zend_register_list_destructors_ex(_swig_default_rsrc_destroy, NULL, SWIGTYPE_p_WOLFSSL_CTX->name, module_number);
   SWIG_TypeClientData(SWIGTYPE_p_WOLFSSL_CTX,&le_swig__p_WOLFSSL_CTX);
   le_swig__p_RsaKey=zend_register_list_destructors_ex(_swig_default_rsrc_destroy, NULL, SWIGTYPE_p_RsaKey->name, module_number);

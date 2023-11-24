@@ -14,7 +14,10 @@ Project to create a swig that will try to replace Open SSL in PHP crypt ops.
 - Clone git@github.com:wolfSSL/wolfssl.git to this folder
 - Install WolfSSL
 - Run `swig -php7 wolfssl.i`
+- Update the file _**wolfssl_wrap.c**_ as seen in the notes section below
 - Compile the generated files with gcc
+  - Run the following command but keep in mind the paths are only references
+    - `gcc -Wall -shared -fPIC -o wolfssl.so wolfssl_wrap.c -I./wolfssl -I/usr/include/php/xxx/Zend -Ixxxx/tmp/php-8.1.22 -I/usr/include/php/20220829/main -I/usr/include/php/20220829/TSRM -I./wolfssl/wolfssl -I/xxxx/tmp/wolfssl/wolfssl -L/usr/local/lib/ -lwolfssl`
 - Add your new extension to PHP
   - php -i | grep extension_dir to figure the folder for example
 - 

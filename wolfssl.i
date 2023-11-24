@@ -1,5 +1,17 @@
-%module wolfssl 
-#define override
+%typemap(in) const byte* {
+  if (Z_TYPE_P($input) == IS_STRING) {
+    char *str = Z_STRVAL_P($input);
+    size_t len = Z_STRLEN_P($input);
+    $1 = (const byte*) str;
+    $1_len = (word32) len;
+  } else {
+    SWIG_PHP_Error(E_ERROR, "Expected a string");
+    return;
+  }
+}
+
+%module wolfssl
+
 %{
     #include <wolfssl/wolfssl/ssl.h>
     #include <wolfssl/wolfssl/wolfcrypt/rsa.h>
@@ -16,6 +28,7 @@
     void    FillSignStr(unsigned char*, const char*, int);
 
 %}
+
 
 WOLFSSL_METHOD*  wolfSSLv23_client_method(void);
 WOLFSSL_METHOD*  wolfSSLv23_server_method(void);
@@ -35,5 +48,5 @@ int              wc_SignatureGenerate(enum wc_HashType hash_type, enum wc_Signat
 
 int              wc_PKCS12_PBKDF(unsigned char* output, const unsigned char* passwd, int pLen, const unsigned char* salt,
                            int sLen, int iterations, int kLen, int hashType, int purpose);
-int              wc_RsaSSL_Sign(const unsigned char* in, int inLen, unsigned char* out, int outLen, RsaKey* key, WC_RNG* rng);
-int              wc_RsaSSL_Verify(const unsigned char* in, int inLen, unsigned char* out, int outLen, RsaKey* key);
+int              wc_RsaSSL_Sign(const byte* in, word32 inLen, byte* out, word32 outLen, RsaKey* key, WC_RNG* rng);
+int              wc_RsaSSL_Verify(const byte* in, int inLen, unsigned char* out, int outLen, RsaKey* key);
