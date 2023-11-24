@@ -1068,13 +1068,13 @@ extern "C" {
 #endif
 
 
-    #include <wolfssl/wolfssl/ssl.h>
-    #include <wolfssl/wolfssl/wolfcrypt/rsa.h>
-    #include <wolfssl/wolfssl/options.h>
-    #include <wolfssl/wolfssl/wolfcrypt/signature.h>
+    #include <wolfssl/ssl.h>
+    #include <wolfssl/wolfcrypt/rsa.h>
+    #include <wolfssl/options.h>
+    #include <wolfssl/wolfcrypt/signature.h>
     #include <wolfssl/wolfcrypt/pwdbased.h>
-    #include "wolfssl/wolfcrypt/settings.h"
-    #include "wolfssl/wolfcrypt/types.h"
+    #include <wolfssl/wolfcrypt/settings.h>
+    #include <wolfssl/wolfcrypt/types.h>
 
     char* wolfSSL_error_string(int err);
     int   wolfSSL_swig_connect(WOLFSSL*, const char* server, int port);
@@ -1151,7 +1151,7 @@ static int le_swig__p_WC_RNG=0; /* handle for _p_WC_RNG */
 static int le_swig__p_WOLFSSL=0; /* handle for _p_WOLFSSL */
 /* end vdecl subsection */
 /* wrapper section */
-ZEND_NAMED_FUNCTION(_wrap_wolfTLSv1_2_client_method) {
+ZEND_NAMED_FUNCTION(_wrap_wolfSSLv23_client_method) {
   WOLFSSL_METHOD *result = 0 ;
   
   SWIG_ResetError();
@@ -1159,7 +1159,7 @@ ZEND_NAMED_FUNCTION(_wrap_wolfTLSv1_2_client_method) {
     WRONG_PARAM_COUNT;
   }
   
-  result = (WOLFSSL_METHOD *)wolfTLSv1_2_client_method();
+  result = (WOLFSSL_METHOD *)wolfSSLv23_client_method();
   
   SWIG_SetPointerZval(return_value, (void *)result, SWIGTYPE_p_WOLFSSL_METHOD, 0);
   
@@ -1894,7 +1894,7 @@ ZEND_END_ARG_INFO()
 /* entry subsection */
 /* Every non-class user visible function must have an entry here */
 static zend_function_entry wolfssl_functions[] = {
- SWIG_ZEND_NAMED_FE(wolftlsv1_2_client_method,_wrap_wolfTLSv1_2_client_method,swig_arginfo_0)
+ SWIG_ZEND_NAMED_FE(wolfsslv23_client_method,_wrap_wolfSSLv23_client_method,swig_arginfo_0)
  SWIG_ZEND_NAMED_FE(wolfsslv23_server_method,_wrap_wolfSSLv23_server_method,swig_arginfo_0)
  SWIG_ZEND_NAMED_FE(wolfssl_ctx_new,_wrap_wolfSSL_CTX_new,swig_arginfo_1)
  SWIG_ZEND_NAMED_FE(wolfssl_ctx_load_verify_locations,_wrap_wolfSSL_CTX_load_verify_locations,swig_arginfo_3)

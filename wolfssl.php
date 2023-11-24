@@ -27,8 +27,8 @@ if (!extension_loaded('wolfssl')) {
 
 
 abstract class wolfssl {
-	static function wolfTLSv1_2_client_method() {
-		return wolfTLSv1_2_client_method();
+	static function wolfSSLv23_client_method() {
+		return wolfSSLv23_client_method();
 	}
 
 	static function wolfSSLv23_server_method() {

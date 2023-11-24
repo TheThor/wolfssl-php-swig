@@ -6,8 +6,8 @@
     #include <wolfssl/wolfssl/options.h>
     #include <wolfssl/wolfssl/wolfcrypt/signature.h>
     #include <wolfssl/wolfcrypt/pwdbased.h>
-    #include "wolfssl/wolfcrypt/settings.h"
-    #include "wolfssl/wolfcrypt/types.h"
+    #include <wolfssl/wolfcrypt/settings.h>
+    #include <wolfssl/wolfcrypt/types.h>
 
     char* wolfSSL_error_string(int err);
     int   wolfSSL_swig_connect(WOLFSSL*, const char* server, int port);
@@ -17,7 +17,7 @@
 
 %}
 
-WOLFSSL_METHOD*  wolfTLSv1_2_client_method(void);
+WOLFSSL_METHOD*  wolfSSLv23_client_method(void);
 WOLFSSL_METHOD*  wolfSSLv23_server_method(void);
 
 WOLFSSL_CTX*     wolfSSL_CTX_new(WOLFSSL_METHOD*);

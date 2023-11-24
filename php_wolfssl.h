@@ -20,7 +20,7 @@ extern zend_module_entry wolfssl_module_entry;
 # define PHP_WOLFSSL_API
 #endif
 
-ZEND_NAMED_FUNCTION(_wrap_wolfTLSv1_2_client_method);
+ZEND_NAMED_FUNCTION(_wrap_wolfSSLv23_client_method);
 ZEND_NAMED_FUNCTION(_wrap_wolfSSLv23_server_method);
 ZEND_NAMED_FUNCTION(_wrap_wolfSSL_CTX_new);
 ZEND_NAMED_FUNCTION(_wrap_wolfSSL_CTX_load_verify_locations);
