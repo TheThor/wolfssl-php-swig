@@ -1,5 +1,5 @@
-# wolfssl-php-swig - (still WIP)
-Project to create a swig that will try to replace Open SSL in PHP crypt ops. 
+# WolfSSL PHP Extension via SWIG - (still WIP)
+Project to create a (SWIG)[https://www.swig.org/Doc1.3/Php.html] that will try to replace OpenSSL in PHP crypt ops. 
 
 ### Requirements
 - WolfSSL SSL/TLS Library
